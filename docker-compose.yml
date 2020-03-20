@@ -2,11 +2,11 @@ version: '2'
 services:
   # [Official](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_STACK_VERSION}
     environment:
       - discovery.type=single-node
       - cluster.name=docker-cluster
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms2048m -Xmx2048m"
     volumes:
       - ./mount/elasticsearch/es1/data/:/usr/share/elasticsearch/data/
     ports:
@@ -14,29 +14,29 @@ services:
       - "9300:9300"
   # [Official](https://www.elastic.co/guide/en/logstash/current/docker-config.html)
   logstash:
-    image: docker.elastic.co/logstash/logstash:6.5.4
-    volumes:
-      - ./mount/logstash/config/:/usr/share/logstash/config/
+    image: docker.elastic.co/logstash/logstash:${ELASTIC_STACK_VERSION}
+    #volumes:
+    #  - ./mount/logstash/config/:/usr/share/logstash/config/
     ports:
       - "5044:5044"
     depends_on:
       - elasticsearch
   # [Official](https://www.elastic.co/guide/en/kibana/current/docker.html)
   kibana:
-    image: docker.elastic.co/kibana/kibana:6.5.4
-    volumes:
-      - ./mount/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    image: docker.elastic.co/kibana/kibana:${ELASTIC_STACK_VERSION}
+    #volumes:
+    #  - ./mount/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
       - "5601:5601"
     depends_on:
       - elasticsearch
   # [Official](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-docker.html)
   filebeat:
-    image: docker.elastic.co/beats/filebeat:6.5.4
-    volumes:
-      - ./mount/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - ./mount/filebeat/modules.d/:/usr/share/filebeat/modules.d/
-      - ./mount/filebeat/prospectors.d/:/usr/share/filebeat/prospectors.d/
-      - ./mount/log/access.log:/tmp/access.log
+    image: docker.elastic.co/beats/filebeat:${ELASTIC_STACK_VERSION}
+    #volumes:
+    #  - ./mount/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+    #  - ./mount/filebeat/modules.d/:/usr/share/filebeat/modules.d/
+    #  - ./mount/filebeat/prospectors.d/:/usr/share/filebeat/prospectors.d/
+    #  - ./mount/log/access.log:/tmp/access.log
     depends_on:
       - logstash
