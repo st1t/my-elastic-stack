@@ -8,19 +8,19 @@ services:
       - cluster.name=docker-cluster
       - "ES_JAVA_OPTS=-Xms2048m -Xmx2048m"
     volumes:
-      - ./mount/elasticsearch/es1/data/:/usr/share/elasticsearch/data/
+      - es-data:/usr/share/elasticsearch/data/
     ports:
       - "9200:9200"
       - "9300:9300"
   # [Official](https://www.elastic.co/guide/en/logstash/current/docker-config.html)
-  logstash:
-    image: docker.elastic.co/logstash/logstash:${ELASTIC_STACK_VERSION}
-    #volumes:
-    #  - ./mount/logstash/config/:/usr/share/logstash/config/
-    ports:
-      - "5044:5044"
-    depends_on:
-      - elasticsearch
+  #logstash:
+  #  image: docker.elastic.co/logstash/logstash:${ELASTIC_STACK_VERSION}
+  #  #volumes:
+  #  #  - ./mount/logstash/config/:/usr/share/logstash/config/
+  #  ports:
+  #    - "5044:5044"
+  #  depends_on:
+  #    - elasticsearch
   # [Official](https://www.elastic.co/guide/en/kibana/current/docker.html)
   kibana:
     image: docker.elastic.co/kibana/kibana:${ELASTIC_STACK_VERSION}
@@ -31,12 +31,15 @@ services:
     depends_on:
       - elasticsearch
   # [Official](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-docker.html)
-  filebeat:
-    image: docker.elastic.co/beats/filebeat:${ELASTIC_STACK_VERSION}
-    #volumes:
-    #  - ./mount/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
-    #  - ./mount/filebeat/modules.d/:/usr/share/filebeat/modules.d/
-    #  - ./mount/filebeat/prospectors.d/:/usr/share/filebeat/prospectors.d/
-    #  - ./mount/log/access.log:/tmp/access.log
-    depends_on:
-      - logstash
+  #filebeat:
+  #  image: docker.elastic.co/beats/filebeat:${ELASTIC_STACK_VERSION}
+  #  #volumes:
+  #  #  - ./mount/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+  #  #  - ./mount/filebeat/modules.d/:/usr/share/filebeat/modules.d/
+  #  #  - ./mount/filebeat/prospectors.d/:/usr/share/filebeat/prospectors.d/
+  #  #  - ./mount/log/access.log:/tmp/access.log
+  #  depends_on:
+  #    - logstash
+volumes:
+  es-data:
+    driver: local
