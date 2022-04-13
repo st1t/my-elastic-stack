@@ -2,10 +2,10 @@ filebeat.inputs:
   - type: filestream
     paths:
       - /var/log/import/*.json
-    json.keys_under_root: true
-    json.overwrite_keys: true
-    json.add_error_key: true
-    json.expand_keys: true
+    parsers:
+      - ndjson:
+          keys_under_root: true
+          message_key: inner
 
 #processors:
 #  - decode_json_fields:
@@ -44,3 +44,4 @@ output.elasticsearch:
 #  username: '${ELASTICSEARCH_USERNAME:}'
 #  password: '${ELASTICSEARCH_PASSWORD:}'
 
+monitoring.enabled: false
