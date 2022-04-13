@@ -4,10 +4,13 @@ filebeat.inputs:
       - /var/log/import/*.json
     parsers:
       - ndjson:
-          keys_under_root: true
-          message_key: inner
+          expand_keys: true
+          add_error_key: true
 
 #processors:
+#  - drop_fields:
+#      fields: ["source","host.name"]
+
 #  - decode_json_fields:
 #      fields: [ "message" ]
 #  - timestamp:
@@ -41,7 +44,5 @@ filebeat.inputs:
 
 output.elasticsearch:
   hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
-#  username: '${ELASTICSEARCH_USERNAME:}'
-#  password: '${ELASTICSEARCH_PASSWORD:}'
 
 monitoring.enabled: false

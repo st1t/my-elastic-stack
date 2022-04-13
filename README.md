@@ -46,11 +46,14 @@ $ open http://localhost:5601
 # Elasticsearchのデータを全て削除したい場合
 
 ```shell
-$ docker volume rm my-elastic-stack_es-data
+$ bash reset.sh
+$ docker-compose up -d
 ```
 
-# ToDo
+# Tips
 
-- [ ] LogstashのConfファイルの書き方を[Multiple Pipelines](https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html)にする
-- [ ] FileBeatとLogstashを使ったデータ投入
-- [ ] JSONをLTSVに変更したデータ投入
+## ドキュメントにsourceやtraceという名称が入っているとバッティングするのでimport時に置換しておく
+
+```shell
+cat ~/Desktop/app.json | sed -e 's%"source":%"app_source":%g' -e 's%"trace":%"app_trace":%g' >> mount/filebeat/import/app.json
+```
