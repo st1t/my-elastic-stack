@@ -33,8 +33,6 @@ services:
   # [Official](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-docker.html)
   filebeat:
     image: docker.elastic.co/beats/filebeat:${ELASTIC_STACK_VERSION}
-    environment:
-      - output.elasticsearch.hosts=["elasticsearch:9200"]
     volumes:
       - ./mount/filebeat/7/usr/share/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - ./mount/filebeat/7/usr/share/filebeat/data/registry/filebeat:/usr/share/filebeat/data/registry/filebeat
