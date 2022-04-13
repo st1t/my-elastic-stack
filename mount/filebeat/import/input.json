@@ -1,1 +1,3 @@
-{ "outer": "value", "inner": "{\"data\": \"value\"}" }
+{ "outer": "value1", "inner": "{\"data\": \"value\"}" }
+{ "outer": "value2", "inner": "{\"data\": \"value\"}" }
+{ "outer": "parse error value" "inner": "{\"data\": \"value\"}" }
