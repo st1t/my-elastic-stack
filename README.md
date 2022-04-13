@@ -43,6 +43,12 @@ $
 $ open http://localhost:5601
 ```
 
+# Elasticsearchのデータを全て削除したい場合
+
+```shell
+$ docker volume rm my-elastic-stack_es-data
+```
+
 # ToDo
 
 - [ ] LogstashのConfファイルの書き方を[Multiple Pipelines](https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html)にする
