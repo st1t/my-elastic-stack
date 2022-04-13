@@ -31,15 +31,17 @@ services:
     depends_on:
       - elasticsearch
   # [Official](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-docker.html)
-  #filebeat:
-  #  image: docker.elastic.co/beats/filebeat:${ELASTIC_STACK_VERSION}
-  #  #volumes:
-  #  #  - ./mount/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
-  #  #  - ./mount/filebeat/modules.d/:/usr/share/filebeat/modules.d/
-  #  #  - ./mount/filebeat/prospectors.d/:/usr/share/filebeat/prospectors.d/
-  #  #  - ./mount/log/access.log:/tmp/access.log
-  #  depends_on:
-  #    - logstash
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:${ELASTIC_STACK_VERSION}
+    environment:
+      - output.elasticsearch.hosts=["elasticsearch:9200"]
+    volumes:
+      - ./mount/filebeat/7/usr/share/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./mount/filebeat/7/usr/share/filebeat/data/registry/filebeat:/usr/share/filebeat/data/registry/filebeat
+      - ./mount/filebeat/import/:/var/log/import
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - elasticsearch
 volumes:
   es-data:
     driver: local
