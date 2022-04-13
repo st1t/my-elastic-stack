@@ -6,7 +6,6 @@ filebeat.inputs:
     json.overwrite_keys: true
     json.add_error_key: true
     json.expand_keys: true
-  -
 
 #processors:
 #  - decode_json_fields:
