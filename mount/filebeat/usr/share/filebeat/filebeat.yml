@@ -1,3 +1,8 @@
+#filebeat.config:
+#  modules:
+#    path: ${path.config}/modules.d/*.yml
+#    reload.enabled: false
+
 filebeat.inputs:
   - type: filestream
     paths:
@@ -10,7 +15,6 @@ filebeat.inputs:
 #processors:
 #  - drop_fields:
 #      fields: ["source","host.name"]
-
 #  - decode_json_fields:
 #      fields: [ "message" ]
 #  - timestamp:
@@ -24,13 +28,6 @@ filebeat.inputs:
 #      test:
 #        - '2022-04-11T16:36:15.378330+09:00'
 
-#index: "%{[agent.name]}-applogs-%{+yyyy.MM.dd}"
-
-#filebeat.config:
-#  modules:
-#    path: ${path.config}/modules.d/*.yml
-#    reload.enabled: false
-
 #processors:
 #  - decode_json_fields:
 #      fields: ["message"]
@@ -41,6 +38,8 @@ filebeat.inputs:
 #      add_error_key: true
 #  - add_cloud_metadata: ~
 #  - add_docker_metadata: ~
+
+#index: "%{[agent.name]}-applogs-%{+yyyy.MM.dd}"
 
 output.elasticsearch:
   hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
