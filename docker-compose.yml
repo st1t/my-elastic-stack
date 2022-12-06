@@ -25,6 +25,8 @@ services:
       - discovery.type=single-node
       - cluster.name=docker-cluster
       - "ES_JAVA_OPTS=-Xms2048m -Xmx2048m"
+      - xpack.security.enabled=false # ローカルなので認証をOFFにしておく
+      - action.destructive_requires_name=false # index削除する時に hoge-*のようにワイルドカードで操作できるようにするやつ
     volumes:
       - es-data:/usr/share/elasticsearch/data/
     ports:

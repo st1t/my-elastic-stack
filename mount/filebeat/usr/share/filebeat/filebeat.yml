@@ -12,21 +12,17 @@ filebeat.inputs:
           expand_keys: true
           add_error_key: true
 
-#processors:
+processors:
+  - decode_json_fields:
+      fields: [ "message" ]
+  - timestamp:
+      field: timestamp
+      layouts:
+        - "UNIX_MS"
+#      target_field: target_timestamp
+#      timezone: "Asia/Tokyo"
 #  - drop_fields:
 #      fields: ["source","host.name"]
-#  - decode_json_fields:
-#      fields: [ "message" ]
-#  - timestamp:
-#      field: time
-#      target_field: test_time
-#      timezone: "Asia/Tokyo"
-#      layouts:
-#        - '2006-01-02T15:04:05.999999+07:00'
-#        - '2006-01-02T15:04:05.999999Z07:00'
-#        - '2006-01-02T15:04:05.999999999Z07:00'
-#      test:
-#        - '2022-04-11T16:36:15.378330+09:00'
 
 #processors:
 #  - decode_json_fields:
@@ -39,9 +35,12 @@ filebeat.inputs:
 #  - add_cloud_metadata: ~
 #  - add_docker_metadata: ~
 
-#index: "%{[agent.name]}-applogs-%{+yyyy.MM.dd}"
-
 output.elasticsearch:
-  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
+  hosts: [ elasticsearch:9200 ]
+  index: "aws-waf-access-log-%{+yyyy.MM.dd}"
+
+# https://www.elastic.co/guide/en/beats/filebeat/current/change-index-name.html
+setup.template:
+  enabled: false # JSONを読み込ませるならtemplateは不要なのでfalseにしておく
 
 monitoring.enabled: false
