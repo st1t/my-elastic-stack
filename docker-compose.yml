@@ -1,21 +1,21 @@
-version: '2'
+version: '3'
 services:
+  #   [Official](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-docker.html)
+  #  filebeat:
+  #    image: docker.elastic.co/beats/filebeat:${ELASTIC_STACK_VERSION}
+  #    volumes:
+  #      - ./mount/filebeat/usr/share/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+  #      - ./mount/filebeat/import/:/var/log/import
+  #      - /var/run/docker.sock:/var/run/docker.sock:ro
+  #    depends_on:
+  #      - elasticsearch
   # [Official](https://www.elastic.co/guide/en/logstash/current/docker-config.html)
-  #logstash:
-  #  image: docker.elastic.co/logstash/logstash:${ELASTIC_STACK_VERSION}
-  #  #volumes:
-  #  #  - ./mount/logstash/config/:/usr/share/logstash/config/
-  #  ports:
-  #    - "5044:5044"
-  #  depends_on:
-  #    - elasticsearch
-  # [Official](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-docker.html)
-  filebeat:
-    image: docker.elastic.co/beats/filebeat:${ELASTIC_STACK_VERSION}
+  logstash:
+    image: docker.elastic.co/logstash/logstash:${ELASTIC_STACK_VERSION}
     volumes:
-      - ./mount/filebeat/usr/share/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - ./mount/filebeat/import/:/var/log/import
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./mount/logstash/usr/share/logstash/pipeline/import-alb-access-log.conf:/usr/share/logstash/pipeline/import-alb-access-log.conf
+    ports:
+      - "5044:5044"
     depends_on:
       - elasticsearch
   # [Official](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
@@ -35,6 +35,8 @@ services:
   # [Official](https://www.elastic.co/guide/en/kibana/current/docker.html)
   kibana:
     image: docker.elastic.co/kibana/kibana:${ELASTIC_STACK_VERSION}
+    environment:
+      - I18N_LOCALE=ja-JP # Kibanaを日本語で表示する
     #volumes:
     #  - ./mount/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
