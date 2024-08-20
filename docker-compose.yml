@@ -1,4 +1,3 @@
-version: '3'
 services:
   #   [Official](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-docker.html)
   #  filebeat:
@@ -13,7 +12,10 @@ services:
   logstash:
     image: docker.elastic.co/logstash/logstash:${ELASTIC_STACK_VERSION}
     volumes:
+      - ./mount/logstash/usr/share/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
       - ./mount/logstash/usr/share/logstash/pipeline/import-alb-access-log.conf:/usr/share/logstash/pipeline/import-alb-access-log.conf
+      - ./mount/logstash/usr/share/logstash/pipeline/import-waf-access-log.conf:/usr/share/logstash/pipeline/import-waf-access-log.conf
+      - ./mount/logstash/usr/share/logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     ports:
       - "5044:5044"
     depends_on:

@@ -1,3 +1,4 @@
 .DS_Store
 mount/elasticsearch/es1/
 logs/
+terraform.tfstate

@@ -1,0 +1,5 @@
+- pipeline.id: waf_pipeline
+  path.config: "/usr/share/logstash/pipeline/import-alb-access-log.conf"
+
+- pipeline.id: alb_pipeline
+  path.config: "/usr/share/logstash/pipeline/import-waf-access-log.conf"
