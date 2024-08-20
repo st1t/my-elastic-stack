@@ -16,6 +16,7 @@ services:
       - ./mount/logstash/usr/share/logstash/pipeline/import-alb-access-log.conf:/usr/share/logstash/pipeline/import-alb-access-log.conf
       - ./mount/logstash/usr/share/logstash/pipeline/import-waf-access-log.conf:/usr/share/logstash/pipeline/import-waf-access-log.conf
       - ./mount/logstash/usr/share/logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash/sincedb:/usr/share/logstash/data/sincedb
     ports:
       - "5044:5044"
     depends_on:
